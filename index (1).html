@@ -1,0 +1,901 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<title>Sometimes, all you need are the right words</title>
+<link rel="preconnect" href="https://fonts.googleapis.com" />
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+<link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,500;0,600;1,400;1,600&family=Plus+Jakarta+Sans:wght@400;500;600;700;800&display=swap" rel="stylesheet" />
+<style>
+  :root {
+    --bg: #fcf8ff;
+    --bg-alt: #f5f2ff;
+    --bg-lilac: #efecff;
+    --primary: #6451a4;
+    --primary-soft: #b9a5ff;
+    --accent: #88503d;
+    --peach: #feb59d;
+    --ink: #19192f;
+    --body: #484551;
+    --muted: #797582;
+    --dark: #2e2e45;
+    --chip: #e8e5ff;
+    --white: #ffffff;
+    --serif: 'Playfair Display', Georgia, serif;
+    --sans: 'Plus Jakarta Sans', system-ui, -apple-system, sans-serif;
+  }
+
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+  html { scroll-behavior: smooth; }
+  body {
+    font-family: var(--sans);
+    background: var(--bg);
+    color: var(--body);
+    line-height: 1.5;
+    overflow-x: hidden;
+  }
+  img { max-width: 100%; display: block; }
+  button { font: inherit; cursor: pointer; border: none; background: none; }
+  a { text-decoration: none; color: inherit; }
+
+  .container { max-width: 1280px; margin: 0 auto; padding: 0 48px; }
+  .section { padding: 64px 0; position: relative; }
+  .eyebrow {
+    display: inline-flex; align-items: center; gap: 8px;
+    font-size: 11px; font-weight: 700; letter-spacing: 1.1px;
+    text-transform: uppercase; color: var(--primary);
+  }
+  .h2 {
+    font-family: var(--serif); font-weight: 500;
+    font-size: 40px; line-height: 48px; letter-spacing: -0.4px; color: var(--ink);
+  }
+  .lead { font-size: 16px; line-height: 24px; color: var(--body); }
+
+  /* Buttons */
+  .btn {
+    display: inline-flex; align-items: center; gap: 12px;
+    padding: 14px 40px; border-radius: 9999px;
+    font-size: 15px; font-weight: 600; letter-spacing: 0.15px;
+    transition: transform .2s ease, box-shadow .2s ease, opacity .2s ease;
+    white-space: nowrap;
+  }
+  .btn:hover { transform: translateY(-1px); }
+  .btn-primary {
+    background: linear-gradient(90deg, var(--primary-soft), var(--primary) 50%, var(--accent));
+    color: var(--white);
+    box-shadow: 0 10px 15px -3px rgba(100,81,164,.2), 0 4px 6px -4px rgba(100,81,164,.2);
+  }
+  .btn-ghost { background: rgba(255,255,255,.8); color: var(--ink); padding: 14px 24px; box-shadow: 0 1px 2px rgba(0,0,0,.05); }
+  .btn-dark { background: var(--dark); color: #f2efff; padding: 16px 64px; box-shadow: 0 20px 25px -5px rgba(0,0,0,.1), 0 8px 10px -6px rgba(0,0,0,.1); }
+  .btn-chip { background: var(--chip); color: var(--ink); padding: 8px 16px; font-size: 13px; letter-spacing: .26px; gap: 8px; }
+  .btn-chip-soft { background: rgba(255,255,255,.15); color: #f2efff; backdrop-filter: blur(12px); padding: 10px 16px; font-size: 13px; gap: 8px; letter-spacing: .26px; }
+  .btn-chip-accent { background: var(--primary-soft); color: #493688; padding: 10px 16px; font-size: 13px; gap: 8px; letter-spacing: .26px; }
+
+  /* 1. Hero */
+  .hero-wrap { padding-top: 40px; position: relative; overflow: hidden; }
+  .glow-1 {
+    position: absolute; top: -128px; left: 50%; transform: translateX(-50%);
+    width: 720px; height: 340px; border-radius: 9999px;
+    background: rgba(185,165,255,.2); filter: blur(120px); pointer-events: none;
+  }
+  .glow-2 {
+    position: absolute; top: 80px; right: 40px;
+    width: 420px; height: 280px; border-radius: 9999px;
+    background: rgba(254,181,157,.25); filter: blur(100px); pointer-events: none;
+  }
+  .hero {
+    display: grid; grid-template-columns: repeat(12, minmax(0, 1fr));
+    gap: 40px; align-items: center; position: relative;
+  }
+  .hero-left { grid-column: 1 / span 7; display: flex; flex-direction: column; gap: 16px; }
+  .hero-right { grid-column: 8 / span 5; position: relative; }
+  .pill {
+    display: inline-flex; align-items: center; gap: 8px; align-self: flex-start;
+    padding: 6px 16px; border-radius: 9999px;
+    background: rgba(232,229,255,.8); backdrop-filter: blur(12px);
+    box-shadow: 0 1px 2px rgba(0,0,0,.05);
+    font-size: 11px; font-weight: 700; letter-spacing: .55px; text-transform: uppercase; color: var(--primary);
+  }
+  .pill .dot { width: 8px; height: 8px; border-radius: 9999px; background: var(--primary); }
+  .hero h1 {
+    font-family: var(--serif); font-weight: 600;
+    font-size: 56px; line-height: 64px; letter-spacing: -1.12px; color: var(--ink);
+  }
+  .hero h1 em {
+    font-style: italic; font-weight: 600;
+    background: linear-gradient(90deg, var(--primary), var(--primary-soft) 50%, var(--accent));
+    -webkit-background-clip: text; background-clip: text; color: transparent;
+  }
+  .hero .lead { font-size: 18px; line-height: 28px; max-width: 576px; }
+  .hero-actions { display: flex; flex-wrap: wrap; gap: 16px; align-items: center; padding-top: 8px; }
+  .stats { display: flex; flex-wrap: wrap; gap: 24px; align-items: center; padding-top: 16px; }
+  .stat { display: flex; align-items: center; gap: 8px; font-size: 13px; color: var(--body); }
+  .stat strong { font-weight: 800; color: var(--ink); }
+  .stat .ico { width: 16px; height: 12px; border-radius: 3px; background: var(--primary); opacity: .7; }
+
+  .hero-visual {
+    position: relative; height: 587px; border-radius: 48px; overflow: hidden;
+    background: linear-gradient(160deg, #cfc4f5 0%, #8e7fc4 45%, #3a3450 100%);
+    box-shadow: 0 25px 50px -12px rgba(0,0,0,.25);
+  }
+  .hero-visual::after {
+    content: ''; position: absolute; inset: 0;
+    background: linear-gradient(to top, rgba(46,46,69,.8), rgba(46,46,69,0) 60%);
+  }
+  .float-pill {
+    position: absolute; z-index: 2;
+    display: flex; align-items: center; gap: 8px;
+    padding: 8px 16px; border-radius: 9999px;
+    background: rgba(255,255,255,.9); backdrop-filter: blur(12px);
+    box-shadow: 0 4px 6px -1px rgba(0,0,0,.1), 0 2px 4px -2px rgba(0,0,0,.1);
+    font-size: 11px; font-weight: 600; letter-spacing: .275px; color: var(--ink);
+  }
+  .float-pill .d { width: 10px; height: 10px; border-radius: 9999px; }
+  .float-pill.a { left: 24px; top: 24px; }
+  .float-pill.b { right: 24px; top: 80px; }
+  .quote-card {
+    position: absolute; z-index: 2; left: 24px; right: 24px; bottom: 24px;
+    padding: 16px; border-radius: 32px;
+    background: rgba(255,255,255,.9); backdrop-filter: blur(24px);
+    box-shadow: 0 10px 15px -3px rgba(0,0,0,.1), 0 4px 6px -4px rgba(0,0,0,.1);
+    display: flex; flex-direction: column; gap: 8px;
+  }
+  .quote-card .label { font-size: 11px; font-weight: 700; letter-spacing: .55px; text-transform: uppercase; color: var(--primary); }
+  .quote-card blockquote { font-family: var(--serif); font-style: italic; font-size: 22px; line-height: 32px; color: var(--ink); }
+  .quote-card .meta { display: flex; justify-content: space-between; padding-top: 8px; font-size: 11px; font-weight: 700; letter-spacing: .44px; }
+  .quote-card .meta span:first-child { color: var(--body); }
+  .quote-card .meta span:last-child { color: var(--primary); font-weight: 600; }
+
+  /* Image slots (replace with <img> exported from Figma) */
+  .img-slot { position: absolute; inset: 0; background-size: cover; background-position: center; }
+
+  /* 2. Mood selection */
+  .s2 { background: var(--bg-alt); }
+  .section-head { display: flex; flex-direction: column; align-items: center; gap: 4px; text-align: center; max-width: 672px; margin: 0 auto; }
+  .chip-label {
+    display: inline-flex; align-items: center; gap: 8px;
+    padding: 4px 16px; border-radius: 9999px; background: #e2dffd;
+    font-size: 11px; font-weight: 700; letter-spacing: 1.1px; text-transform: uppercase; color: var(--ink);
+  }
+  .step-row { display: flex; align-items: center; justify-content: space-between; margin-bottom: 8px; }
+  .step-title { display: flex; align-items: center; gap: 8px; font-size: 15px; font-weight: 600; letter-spacing: .375px; text-transform: uppercase; color: var(--ink); }
+  .step-num {
+    width: 24px; height: 24px; border-radius: 9999px; display: inline-flex; align-items: center; justify-content: center;
+    background: var(--dark); color: #f2efff; font-size: 12px; font-weight: 700;
+  }
+  .step-num.on { background: var(--primary); color: var(--white); }
+  .step-meta { font-size: 11px; font-weight: 700; letter-spacing: .44px; color: var(--body); }
+  .mood-grid { display: grid; grid-template-columns: repeat(6, minmax(0, 1fr)); gap: 12px; margin-bottom: 40px; }
+  .mood {
+    background: var(--white); border-radius: 48px; padding: 16px;
+    display: flex; flex-direction: column; gap: 12px; text-align: left;
+    box-shadow: 0 1px 1px rgba(0,0,0,.05);
+    transition: transform .2s ease, background .2s ease;
+  }
+  .mood:hover { transform: translateY(-2px); }
+  .mood .row { display: flex; justify-content: space-between; align-items: center; }
+  .mood .emoji { font-size: 20px; line-height: 28px; }
+  .mood .name { font-size: 15px; font-weight: 600; color: var(--ink); letter-spacing: .15px; }
+  .mood .desc { font-size: 12px; color: var(--body); line-height: 18px; }
+  .mood.active { background: #e2dffd; box-shadow: 0 4px 6px -1px rgba(0,0,0,.1), 0 2px 4px -2px rgba(0,0,0,.1); }
+  .mood.active .name { font-weight: 700; color: var(--primary); }
+  .mood.active .desc { color: var(--primary); }
+  .target-grid { display: grid; grid-template-columns: repeat(9, minmax(0, 1fr)); gap: 12px; margin-bottom: 8px; }
+  .target {
+    background: var(--white); border-radius: 48px; padding: 14px 8px;
+    display: flex; flex-direction: column; align-items: center; gap: 8px; text-align: center;
+    box-shadow: 0 1px 1px rgba(0,0,0,.05); transition: transform .2s ease;
+  }
+  .target:hover { transform: translateY(-2px); }
+  .target .emoji { font-size: 24px; line-height: 32px; }
+  .target .name { font-size: 13px; font-weight: 600; color: var(--ink); letter-spacing: .26px; }
+  .target .desc { font-size: 11px; color: var(--body); }
+  .target.active { background: var(--peach); }
+  .target.active .name { font-weight: 700; color: #794432; }
+  .target.active .desc { color: #794432; opacity: .8; }
+  .cta-row { display: flex; flex-direction: column; align-items: center; gap: 8px; padding-top: 32px; }
+  .cta-note { display: flex; align-items: center; gap: 6px; font-size: 14px; color: var(--body); }
+  .cta-note .dot { width: 6px; height: 6px; border-radius: 9999px; background: #2e6954; }
+
+  /* 3. Results */
+  .results-head { display: flex; align-items: flex-end; justify-content: space-between; gap: 24px; flex-wrap: wrap; }
+  .results-head .eyebrow { font-size: 13px; letter-spacing: .65px; }
+  .results-head .h2 { font-size: 40px; padding-top: 4px; }
+  .results-head p { font-size: 18px; line-height: 28px; max-width: 672px; color: var(--body); }
+  .quotes-grid { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 24px; margin-top: 40px; }
+  .rq {
+    border-radius: 48px; padding: 40px; display: flex; flex-direction: column; gap: 24px;
+    box-shadow: 0 4px 6px -1px rgba(0,0,0,.1), 0 2px 4px -2px rgba(0,0,0,.1);
+  }
+  .rq-top { display: flex; justify-content: space-between; align-items: flex-start; }
+  .rq-tag { padding: 4px 12px; border-radius: 9999px; font-size: 11px; font-weight: 600; letter-spacing: .44px; }
+  .rq blockquote { font-family: var(--serif); font-size: 32px; line-height: 44px; letter-spacing: -.32px; color: var(--ink); }
+  .rq-foot { display: flex; justify-content: space-between; align-items: center; border-top: 1px solid rgba(202,196,210,.3); padding-top: 17px; gap: 16px; flex-wrap: wrap; }
+  .rq-foot .who { font-size: 13px; font-weight: 700; color: var(--ink); letter-spacing: .26px; }
+  .rq-foot .src { font-size: 12px; color: var(--body); }
+  .rq-actions { display: flex; gap: 8px; }
+  .icon-btn {
+    width: 40px; height: 40px; border-radius: 9999px; background: var(--white);
+    box-shadow: 0 1px 1px rgba(0,0,0,.05); display: inline-flex; align-items: center; justify-content: center;
+    font-size: 14px; color: var(--ink);
+  }
+  .more-wrap { display: flex; justify-content: center; margin-top: 40px; }
+  .more-btn { background: var(--chip); color: var(--ink); padding: 12px 40px; border-radius: 9999px; font-size: 13px; font-weight: 600; letter-spacing: .26px; display: inline-flex; gap: 8px; align-items: center; }
+
+  /* 4. Featured quote */
+  .featured-wrap { padding: 40px 48px; }
+  .featured {
+    position: relative; overflow: hidden; border-radius: 48px;
+    background: var(--dark); padding: 64px 144px;
+    box-shadow: 0 25px 50px -12px rgba(0,0,0,.25);
+    display: flex; flex-direction: column; align-items: center; gap: 24px; text-align: center;
+  }
+  .featured .orb-a, .featured .orb-b {
+    position: absolute; width: 384px; height: 384px; border-radius: 9999px; filter: blur(90px); pointer-events: none;
+  }
+  .featured .orb-a { top: -80px; right: -80px; background: rgba(100,81,164,.2); }
+  .featured .orb-b { bottom: -80px; left: -80px; background: rgba(136,80,61,.2); }
+  .featured > * { position: relative; }
+  .featured .tag {
+    display: inline-flex; align-items: center; gap: 8px; padding: 6px 16px; border-radius: 9999px;
+    background: rgba(255,255,255,.1); backdrop-filter: blur(12px);
+    font-size: 11px; font-weight: 700; letter-spacing: 1.1px; text-transform: uppercase; color: #cdbdff;
+  }
+  .featured .qmark { font-family: var(--serif); font-size: 64px; color: rgba(205,189,255,.4); line-height: 40px; }
+  .featured blockquote { font-family: var(--serif); font-style: italic; font-size: 42px; line-height: 54px; letter-spacing: -1.05px; color: #f2efff; max-width: 896px; }
+  .featured .author { font-family: var(--serif); font-size: 22px; font-weight: 500; color: #f2efff; }
+  .featured .source { font-size: 14px; color: #cac4d2; margin-top: -18px; }
+  .featured .tray { display: flex; flex-wrap: wrap; gap: 12px; justify-content: center; padding-top: 8px; }
+
+  /* 5. Life chapters */
+  .chapters-head { display: flex; align-items: flex-end; justify-content: space-between; gap: 24px; flex-wrap: wrap; }
+  .chapters-head .lead { max-width: 448px; }
+  .chapters-grid { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 24px; margin-top: 40px; }
+  .chapter {
+    background: var(--white); border-radius: 48px; overflow: hidden;
+    box-shadow: 0 4px 6px -1px rgba(0,0,0,.1), 0 2px 4px -2px rgba(0,0,0,.1);
+    display: flex; flex-direction: column; transition: transform .2s ease;
+  }
+  .chapter:hover { transform: translateY(-3px); }
+  .chapter .pic { position: relative; height: 192px; }
+  .chapter .tag {
+    position: absolute; left: 16px; top: 16px; z-index: 2;
+    padding: 4px 12px; border-radius: 9999px;
+    font-size: 11px; font-weight: 700; letter-spacing: .44px;
+    backdrop-filter: blur(12px);
+  }
+  .chapter .body { padding: 24px; display: flex; flex-direction: column; gap: 12px; flex: 1; }
+  .chapter h3 { font-family: var(--serif); font-weight: 500; font-size: 22px; line-height: 30px; color: var(--ink); }
+  .chapter .quote { font-size: 14px; line-height: 20px; color: var(--body); }
+  .chapter .foot { display: flex; justify-content: space-between; align-items: center; padding-top: 8px; font-size: 11px; font-weight: 700; color: var(--muted); letter-spacing: .44px; }
+  .chapter .foot span:last-child { color: var(--primary); font-size: 16px; }
+
+  /* 6. Mood collections */
+  .s6 { background: var(--bg-lilac); }
+  .collections-head { display: flex; align-items: flex-end; justify-content: space-between; gap: 24px; flex-wrap: wrap; }
+  .collections-head .eyebrow { color: var(--accent); }
+  .view-all { display: inline-flex; gap: 4px; align-items: center; font-size: 13px; font-weight: 600; letter-spacing: .26px; color: var(--primary); }
+  .collections { display: grid; grid-template-columns: repeat(4, minmax(0, 1fr)); gap: 16px; margin-top: 40px; }
+  .collection {
+    position: relative; height: 378px; border-radius: 48px; overflow: hidden;
+    box-shadow: 0 10px 15px -3px rgba(0,0,0,.1), 0 4px 6px -4px rgba(0,0,0,.1);
+    display: flex; flex-direction: column; justify-content: flex-end; padding: 24px;
+    color: #fcf8ff; transition: transform .2s ease;
+  }
+  .collection:hover { transform: translateY(-3px); }
+  .collection::after {
+    content: ''; position: absolute; inset: 0;
+    background: linear-gradient(to top, #19192f 0%, rgba(25,25,47,.4) 50%, rgba(25,25,47,0) 100%);
+  }
+  .collection > * { position: relative; z-index: 1; }
+  .collection .vol { font-size: 11px; font-weight: 700; letter-spacing: 1.1px; text-transform: uppercase; }
+  .collection h4 { font-family: var(--serif); font-weight: 500; font-size: 22px; line-height: 30px; margin: 4px 0 6px; }
+  .collection p { font-size: 13px; line-height: 19.5px; color: #cac4d2; }
+
+  /* 7. CTA banner */
+  .cta-banner {
+    position: relative; overflow: hidden; border-radius: 48px; padding: 64px;
+    background: linear-gradient(90deg, #e8e5ff, #fff 50%, rgba(255,219,208,.4));
+    box-shadow: 0 20px 25px -5px rgba(0,0,0,.1), 0 8px 10px -6px rgba(0,0,0,.1);
+    display: flex; flex-direction: column; align-items: center; gap: 16px; text-align: center;
+  }
+  .cta-banner .orb { position: absolute; left: -64px; top: -64px; width: 256px; height: 256px; border-radius: 9999px; background: rgba(185,165,255,.3); filter: blur(80px); pointer-events: none; }
+  .cta-banner > * { position: relative; }
+  .cta-banner .tag {
+    display: inline-flex; align-items: center; gap: 8px; padding: 4px 12px; border-radius: 9999px;
+    background: #efecff; font-size: 11px; font-weight: 700; letter-spacing: .55px; text-transform: uppercase; color: var(--ink);
+  }
+  .cta-banner h2 { font-family: var(--serif); font-weight: 500; font-size: 40px; line-height: 48px; letter-spacing: -.4px; color: var(--ink); max-width: 672px; }
+  .cta-banner .lead { font-size: 18px; line-height: 28px; max-width: 512px; }
+  .cta-banner .fine { font-size: 13px; line-height: 19.5px; color: rgba(72,69,81,.8); }
+
+  /* Free audit (added: payment button + 3-field form) */
+  .audit { padding: 64px 0 0; }
+  .audit-card {
+    background: var(--white); border-radius: 48px; padding: 48px;
+    box-shadow: 0 10px 15px -3px rgba(0,0,0,.1), 0 4px 6px -4px rgba(0,0,0,.1);
+    display: grid; grid-template-columns: 1fr 1fr; gap: 48px; align-items: center;
+  }
+  .audit-card h2 { font-family: var(--serif); font-weight: 500; font-size: 36px; line-height: 44px; color: var(--ink); }
+  .audit-card .lead { margin-top: 12px; }
+  .price-btn { margin-top: 24px; }
+  .price-note { margin-top: 12px; font-size: 13px; color: var(--muted); }
+  form.lead-form { display: flex; flex-direction: column; gap: 16px; }
+  .field { display: flex; flex-direction: column; gap: 6px; }
+  .field label { font-size: 12px; font-weight: 700; letter-spacing: .44px; text-transform: uppercase; color: var(--ink); }
+  .field input {
+    font: inherit; font-size: 15px; padding: 14px 18px; border-radius: 16px;
+    border: 1px solid rgba(202,196,210,.6); background: var(--bg); color: var(--ink);
+    outline: none; transition: border-color .2s ease, box-shadow .2s ease;
+  }
+  .field input:focus { border-color: var(--primary); box-shadow: 0 0 0 3px rgba(100,81,164,.15); }
+  .submit-btn { justify-content: center; width: 100%; }
+  .submit-btn:disabled { opacity: .6; cursor: not-allowed; transform: none; }
+  .form-msg { font-size: 14px; min-height: 20px; }
+  .form-msg.ok { color: #2e6954; }
+  .form-msg.err { color: #93000a; }
+
+  /* Footer */
+  footer { padding: 48px 0 64px; text-align: center; font-size: 13px; color: var(--muted); }
+
+  /* Responsive */
+  @media (max-width: 1200px) {
+    .container { padding: 0 32px; }
+    .mood-grid { grid-template-columns: repeat(4, minmax(0, 1fr)); }
+    .target-grid { grid-template-columns: repeat(3, minmax(0, 1fr)); }
+    .collections { grid-template-columns: repeat(2, minmax(0, 1fr)); }
+  }
+  @media (max-width: 980px) {
+    .hero { grid-template-columns: 1fr; }
+    .hero-left, .hero-right { grid-column: auto; }
+    .hero h1 { font-size: 44px; line-height: 52px; }
+    .hero-visual { height: 460px; }
+    .chapters-grid { grid-template-columns: repeat(2, minmax(0, 1fr)); }
+    .quotes-grid { grid-template-columns: 1fr; }
+    .featured { padding: 48px 40px; }
+    .featured blockquote { font-size: 32px; line-height: 42px; }
+    .audit-card { grid-template-columns: 1fr; padding: 32px; }
+  }
+  @media (max-width: 720px) {
+    .container { padding: 0 16px; }
+    .section { padding: 48px 0; }
+    .h2, .results-head .h2, .cta-banner h2 { font-size: 30px; line-height: 38px; }
+    .mood-grid { grid-template-columns: repeat(2, minmax(0, 1fr)); }
+    .target-grid { grid-template-columns: repeat(3, minmax(0, 1fr)); }
+    .chapters-grid { grid-template-columns: 1fr; }
+    .collections { grid-template-columns: 1fr; }
+    .collection { height: 340px; }
+    .rq { padding: 28px; }
+    .rq blockquote { font-size: 24px; line-height: 34px; }
+    .featured-wrap { padding: 24px 16px; }
+    .featured { padding: 40px 24px; }
+    .featured blockquote { font-size: 26px; line-height: 36px; }
+    .cta-banner { padding: 40px 24px; }
+    .hero-actions .btn { width: 100%; justify-content: center; }
+    .float-pill.b { display: none; }
+  }
+</style>
+</head>
+<body>
+
+<!-- ============ 1. HERO ============ -->
+<header class="hero-wrap">
+  <div class="glow-1"></div>
+  <div class="glow-2"></div>
+  <div class="container">
+    <section class="hero">
+      <div class="hero-left">
+        <span class="pill"><span class="dot"></span>Mindful Emotional Sanctuary</span>
+        <h1>Sometimes, all you need<br />are the <em>right words.</em></h1>
+        <p class="lead">Whatever you're feeling, there's a quote that understands you. Tell us where your mind is today and where you'd like it to be.</p>
+        <div class="hero-actions">
+          <a class="btn btn-primary" href="#mood">Find My Words</a>
+          <a class="btn btn-ghost" href="#featured">Explore Quotes</a>
+        </div>
+        <div class="stats">
+          <div class="stat"><span class="ico"></span><span><strong>12,400+</strong> Curated Passages</span></div>
+          <div class="stat"><span class="ico"></span><span><strong>48</strong> Emotional Pathways</span></div>
+        </div>
+      </div>
+
+      <div class="hero-right">
+        <div class="hero-visual">
+          <!-- IMAGE SLOT: replace with the hero photo exported from Figma node 2:43 -->
+          <div class="img-slot" style="background: linear-gradient(160deg,#cfc4f5,#8e7fc4 45%,#3a3450);"></div>
+          <span class="float-pill a"><span class="d" style="background:#feb59d"></span>Overwhelmed → Peaceful</span>
+          <span class="float-pill b"><span class="d" style="background:#83bea6"></span>Lonely → Loved</span>
+          <div class="quote-card">
+            <div class="label">✦ Gentle Whisper</div>
+            <blockquote>“You don't have to carry tomorrow until today is finished.”</blockquote>
+            <div class="meta"><span>— Daily Reminder</span><span>Mood Shift #402</span></div>
+          </div>
+        </div>
+      </div>
+    </section>
+  </div>
+</header>
+
+<!-- ============ 2. MOOD SELECTION ============ -->
+<section class="section s2" id="mood">
+  <div class="container">
+    <div class="section-head">
+      <span class="chip-label">Emotional Companion Engine</span>
+      <h2 class="h2">Let's start with how you feel.</h2>
+      <p class="lead">Select your present state of mind, followed by the emotional space you yearn to step into.</p>
+    </div>
+
+    <div style="height: 40px"></div>
+
+    <div class="step-row">
+      <div class="step-title"><span class="step-num">1</span>What is your current mood?</div>
+      <div class="step-meta">12 emotional states</div>
+    </div>
+    <div class="mood-grid" id="current-moods">
+      <button class="mood" data-mood="Happy"><div class="row"><span class="emoji">☀️</span></div><div class="name">Happy</div><div class="desc">Pastel sunshine</div></button>
+      <button class="mood" data-mood="Anxious"><div class="row"><span class="emoji">🌊</span></div><div class="name">Anxious</div><div class="desc">Lavender mist</div></button>
+      <button class="mood" data-mood="Stressed"><div class="row"><span class="emoji">⚡</span></div><div class="name">Stressed</div><div class="desc">Terracotta peach</div></button>
+      <button class="mood" data-mood="Lonely"><div class="row"><span class="emoji">🕯️</span></div><div class="name">Lonely</div><div class="desc">Violet twilight</div></button>
+      <button class="mood" data-mood="Angry"><div class="row"><span class="emoji">🔥</span></div><div class="name">Angry</div><div class="desc">Muted coral fire</div></button>
+      <button class="mood" data-mood="Confused"><div class="row"><span class="emoji">🌀</span></div><div class="name">Confused</div><div class="desc">Misty sage</div></button>
+      <button class="mood" data-mood="Heartbroken"><div class="row"><span class="emoji">💔</span></div><div class="name">Heartbroken</div><div class="desc">Tender blush</div></button>
+      <button class="mood" data-mood="Unmotivated"><div class="row"><span class="emoji">🌫️</span></div><div class="name">Unmotivated</div><div class="desc">Rainy pewter</div></button>
+      <button class="mood" data-mood="Overwhelmed"><div class="row"><span class="emoji">🌪️</span></div><div class="name">Overwhelmed</div><div class="desc">Soft orchid</div></button>
+      <button class="mood" data-mood="Grateful"><div class="row"><span class="emoji">🌱</span></div><div class="name">Grateful</div><div class="desc">Radiant mint</div></button>
+      <button class="mood" data-mood="Neutral"><div class="row"><span class="emoji">🌤️</span></div><div class="name">Neutral</div><div class="desc">Gentle dawn</div></button>
+      <button class="mood active" data-mood="Sad"><div class="row"><span class="emoji">🌧️</span></div><div class="name">Sad</div><div class="desc">Deep ocean blue</div></button>
+    </div>
+
+    <div class="step-row">
+      <div class="step-title"><span class="step-num">2</span>How would you like to feel instead?</div>
+      <div class="step-meta">9 aspirational states</div>
+    </div>
+    <div class="target-grid" id="target-moods">
+      <button class="target active" data-target="Motivated"><span class="emoji">🔥</span><span class="name">Motivated</span><span class="desc">Amber spark</span></button>
+      <button class="target" data-target="Confident"><span class="emoji">👑</span><span class="name">Confident</span><span class="desc">Gold glow</span></button>
+      <button class="target" data-target="Peaceful"><span class="emoji">🕊️</span><span class="name">Peaceful</span><span class="desc">Meadow</span></button>
+      <button class="target" data-target="Loved"><span class="emoji">💖</span><span class="name">Loved</span><span class="desc">Rose quartz</span></button>
+      <button class="target" data-target="Focused"><span class="emoji">🎯</span><span class="name">Focused</span><span class="desc">Azure clarity</span></button>
+      <button class="target" data-target="Fearless"><span class="emoji">🦁</span><span class="name">Fearless</span><span class="desc">Lilac power</span></button>
+      <button class="target" data-target="Hopeful"><span class="emoji">🌅</span><span class="name">Hopeful</span><span class="desc">Sunrise</span></button>
+      <button class="target" data-target="Disciplined"><span class="emoji">⚔️</span><span class="name">Disciplined</span><span class="desc">Steel focus</span></button>
+      <button class="target" data-target="Strong"><span class="emoji">🛡️</span><span class="name">Strong</span><span class="desc">Warm clay</span></button>
+    </div>
+
+    <div class="cta-row">
+      <a class="btn btn-dark" id="find-btn" href="#results">Find My Quotes (Sad → Motivated)</a>
+      <div class="cta-note"><span class="dot"></span>Connecting you with 142 curated passages</div>
+    </div>
+  </div>
+</section>
+
+<!-- ============ 3. PERSONALIZED RESULTS ============ -->
+<section class="section" id="results">
+  <div class="container">
+    <div class="results-head">
+      <div>
+        <div class="eyebrow" id="r-eyebrow">Transition journey: sadness to momentum</div>
+        <h2 class="h2" id="r-title" style="margin-top:4px">Let's turn this feeling into strength.</h2>
+        <p id="r-sub" style="margin-top:4px">Words to remind you that difficult chapters don't define your entire story.</p>
+      </div>
+      <button class="btn-chip-accent" id="regen" style="padding:8px 16px;">↻ Regenerate Mood Shift</button>
+    </div>
+
+    <div class="quotes-grid" id="quotes-grid">
+      <article class="rq" style="background: linear-gradient(150deg,#fff 0%,#f5f2ff 50%,rgba(231,222,255,.2) 100%);">
+        <div class="rq-top"><span class="rq-tag" style="background:rgba(185,165,255,.4);color:#493688">Resilience</span></div>
+        <blockquote>“Out of suffering have emerged the strongest souls; the massive characters are seared with scars.”</blockquote>
+        <div class="rq-foot">
+          <div><div class="who">— Khalil Gibran</div><div class="src">The Broken Wings, 1912</div></div>
+          <div class="rq-actions"><button class="icon-btn" title="Copy">⧉</button><button class="icon-btn" title="Save">♡</button><button class="icon-btn" title="Share">↗</button></div>
+        </div>
+      </article>
+      <article class="rq" style="background: linear-gradient(150deg,#fff 0%,#f5f2ff 50%,rgba(254,181,157,.2) 100%);">
+        <div class="rq-top"><span class="rq-tag" style="background:rgba(255,219,208,.5);color:#360f03">Awakening</span></div>
+        <blockquote>“The wound is the place where the Light enters you.”</blockquote>
+        <div class="rq-foot">
+          <div><div class="who">— Rumi</div><div class="src">Attributed Persian Verse</div></div>
+          <div class="rq-actions"><button class="icon-btn" title="Copy">⧉</button><button class="icon-btn" title="Save">♡</button><button class="icon-btn" title="Share">↗</button></div>
+        </div>
+      </article>
+      <article class="rq" style="background: linear-gradient(150deg,#fff 0%,#f5f2ff 50%,rgba(178,239,213,.3) 100%);">
+        <div class="rq-top"><span class="rq-tag" style="background:rgba(131,190,166,.3);color:#0c4e3b">Rebuilding</span></div>
+        <blockquote>“Rock bottom became the solid foundation on which I rebuilt my life.”</blockquote>
+        <div class="rq-foot">
+          <div><div class="who">— J.K. Rowling</div><div class="src">Harvard Commencement Address</div></div>
+          <div class="rq-actions"><button class="icon-btn" title="Copy">⧉</button><button class="icon-btn" title="Save">♡</button><button class="icon-btn" title="Share">↗</button></div>
+        </div>
+      </article>
+      <article class="rq" style="background: linear-gradient(150deg,#fff 0%,#f5f2ff 50%,rgba(217,215,245,.4) 100%);">
+        <div class="rq-top"><span class="rq-tag" style="background:#e2dffd;color:#19192f">Endurance</span></div>
+        <blockquote>“You may have to fight a battle more than once to win it.”</blockquote>
+        <div class="rq-foot">
+          <div><div class="who">— Margaret Thatcher</div><div class="src">Keynote Address, 1980</div></div>
+          <div class="rq-actions"><button class="icon-btn" title="Copy">⧉</button><button class="icon-btn" title="Save">♡</button><button class="icon-btn" title="Share">↗</button></div>
+        </div>
+      </article>
+    </div>
+
+    <div class="more-wrap"><button class="more-btn">Show Me More Quotes ↓</button></div>
+  </div>
+</section>
+
+<!-- ============ 4. FEATURED QUOTE OF THE DAY ============ -->
+<section class="featured-wrap" id="featured">
+  <div class="featured">
+    <div class="orb-a"></div>
+    <div class="orb-b"></div>
+    <span class="tag">✺ Featured quote of the day • Sunrise selection</span>
+    <div class="qmark">❝</div>
+    <blockquote>“In the depth of winter, I finally learned that within me there lay an invincible summer.”</blockquote>
+    <div class="author">— Albert Camus</div>
+    <div class="source">Return to Tipasa, 1952</div>
+    <div class="tray">
+      <button class="btn-chip-soft">🔈 Listen (Audio Narration)</button>
+      <button class="btn-chip-soft">♡ Save to Favorites</button>
+      <button class="btn-chip-accent">▤ Generate Shareable Card</button>
+    </div>
+  </div>
+</section>
+
+<!-- ============ 5. EXPLORE BY LIFE CHAPTER ============ -->
+<section class="section">
+  <div class="container">
+    <div class="chapters-head">
+      <div>
+        <div class="eyebrow">Thematic explorations</div>
+        <h2 class="h2" style="margin-top:6px">Explore by Life Chapter</h2>
+      </div>
+      <p class="lead">Find resonance through every season of your human journey, carefully curated by emotional resonance.</p>
+    </div>
+
+    <div class="chapters-grid">
+      <article class="chapter">
+        <div class="pic">
+          <!-- IMAGE SLOT: Figma node 2:435 -->
+          <div class="img-slot" style="background: linear-gradient(135deg,#d8cdb8,#9c8f7a);"></div>
+          <span class="tag" style="background:rgba(255,219,208,.9);color:#360f03">Self-Love</span>
+        </div>
+        <div class="body">
+          <h3>Self-Love</h3>
+          <p class="quote">“Embrace your becoming.”</p>
+          <div class="foot"><span>320+ REFLECTIONS</span><span>→</span></div>
+        </div>
+      </article>
+      <article class="chapter">
+        <div class="pic">
+          <!-- IMAGE SLOT: Figma node 2:451 -->
+          <div class="img-slot" style="background: linear-gradient(135deg,#9fb0b8,#5c6e74);"></div>
+          <span class="tag" style="background:rgba(231,222,255,.9);color:#1f015e">Mental Strength</span>
+        </div>
+        <div class="body">
+          <h3>Mental Strength</h3>
+          <p class="quote">“Grit forged in stillness.”</p>
+          <div class="foot"><span>410+ REFLECTIONS</span><span>→</span></div>
+        </div>
+      </article>
+      <article class="chapter">
+        <div class="pic">
+          <!-- IMAGE SLOT: Figma node 2:467 -->
+          <div class="img-slot" style="background: linear-gradient(135deg,#d9b67a,#4f6b3d);"></div>
+          <span class="tag" style="background:rgba(178,239,213,.9);color:#002116">Growth &amp; Transition</span>
+        </div>
+        <div class="body">
+          <h3>Growth &amp; Transition</h3>
+          <p class="quote">“Stepping into the unknown.”</p>
+          <div class="foot"><span>285+ REFLECTIONS</span><span>→</span></div>
+        </div>
+      </article>
+      <article class="chapter">
+        <div class="pic">
+          <!-- IMAGE SLOT: Figma node 2:483 -->
+          <div class="img-slot" style="background: linear-gradient(135deg,#c9a890,#5a4636);"></div>
+          <span class="tag" style="background:rgba(254,181,157,.9);color:#360f03">Heartbreak &amp; Healing</span>
+        </div>
+        <div class="body">
+          <h3>Heartbreak &amp; Healing</h3>
+          <p class="quote">“Restoring tender hearts.”</p>
+          <div class="foot"><span>350+ REFLECTIONS</span><span>→</span></div>
+        </div>
+      </article>
+      <article class="chapter">
+        <div class="pic">
+          <!-- IMAGE SLOT: Figma node 2:499 -->
+          <div class="img-slot" style="background: linear-gradient(135deg,#dfe6ee,#8c9aa8);"></div>
+          <span class="tag" style="background:rgba(226,223,253,.9);color:#19192f">Discipline &amp; Mastery</span>
+        </div>
+        <div class="body">
+          <h3>Discipline &amp; Mastery</h3>
+          <p class="quote">“The bridge between goals and results.”</p>
+          <div class="foot"><span>290+ REFLECTIONS</span><span>→</span></div>
+        </div>
+      </article>
+      <article class="chapter">
+        <div class="pic">
+          <!-- IMAGE SLOT: Figma node 2:515 -->
+          <div class="img-slot" style="background: linear-gradient(135deg,#8f6e4f,#2a2220);"></div>
+          <span class="tag" style="background:rgba(185,165,255,.8);color:#493688">Philosophy &amp; Clarity</span>
+        </div>
+        <div class="body">
+          <h3>Philosophy &amp; Clarity</h3>
+          <p class="quote">“Timeless wisdom for modern chaos.”</p>
+          <div class="foot"><span>510+ REFLECTIONS</span><span>→</span></div>
+        </div>
+      </article>
+    </div>
+  </div>
+</section>
+
+<!-- ============ 6. MOOD COLLECTIONS ============ -->
+<section class="section s6">
+  <div class="container">
+    <div class="collections-head">
+      <div>
+        <div class="eyebrow">Specialized anthologies</div>
+        <h2 class="h2" style="margin-top:6px">Curated Mood Collections</h2>
+      </div>
+      <a class="view-all" href="#">View all 16 collections →</a>
+    </div>
+
+    <div class="collections">
+      <article class="collection">
+        <!-- IMAGE SLOT: Figma node 2:542 -->
+        <div class="img-slot" style="background: linear-gradient(160deg,#4f6b80,#1c2b38);"></div>
+        <div class="vol">Volume 01</div>
+        <h4>When Life Gets Difficult</h4>
+        <p>36 calming passages to anchor your breathing.</p>
+      </article>
+      <article class="collection">
+        <!-- IMAGE SLOT: Figma node 2:552 -->
+        <div class="img-slot" style="background: linear-gradient(160deg,#a58fb8,#4a3d63);"></div>
+        <div class="vol" style="color:#ffdbd0">Volume 02</div>
+        <h4>For the Days You Feel Lost</h4>
+        <p>A gentle compass for wandering souls.</p>
+      </article>
+      <article class="collection">
+        <!-- IMAGE SLOT: Figma node 2:562 -->
+        <div class="img-slot" style="background: linear-gradient(160deg,#e0a86a,#3d3346);"></div>
+        <div class="vol" style="color:#b2efd5">Volume 03</div>
+        <h4>When You Need Discipline</h4>
+        <p>Focus fuels for when inspiration fades.</p>
+      </article>
+      <article class="collection">
+        <!-- IMAGE SLOT: Figma node 2:572 -->
+        <div class="img-slot" style="background: linear-gradient(160deg,#9aa885,#3a4a34);"></div>
+        <div class="vol" style="color:#feb59d">Volume 04</div>
+        <h4>Healing After Heartbreak</h4>
+        <p>Permission to grieve and rise whole again.</p>
+      </article>
+    </div>
+  </div>
+</section>
+
+<!-- ============ 7. FINAL CTA BANNER ============ -->
+<section class="section">
+  <div class="container">
+    <div class="cta-banner">
+      <div class="orb"></div>
+      <span class="tag">✎ A sanctuary for mind and spirit</span>
+      <h2>Your next chapter starts with a thought.</h2>
+      <p class="lead">Find the words that help you become who you want to be.<br />Uncover sentences that stay with you forever.</p>
+      <a class="btn btn-primary" href="#mood">Discover Your Quotes</a>
+      <p class="fine">Free forever • No noise • Curated by thoughtful editors</p>
+    </div>
+  </div>
+</section>
+
+<!-- ============ FREE AUDIT: ₹1 payment button + lead form (added; not in the Figma file) ============ -->
+<section class="audit">
+  <div class="container">
+    <div class="audit-card">
+      <div>
+        <h2>Get your free audit</h2>
+        <p class="lead">Tell us your name, email and phone, and we'll send you a personalised audit of your quote journey.</p>
+        <a class="btn btn-primary price-btn" href="https://payments.cashfree.com/forms/getaudit" target="_blank" rel="noopener">Free Audit for ₹1</a>
+        <p class="price-note">Secure payment via Cashfree.</p>
+      </div>
+
+      <form class="lead-form" id="audit-form" novalidate>
+        <div class="field">
+          <label for="name">Name</label>
+          <input id="name" name="name" type="text" autocomplete="name" placeholder="Your full name" required />
+        </div>
+        <div class="field">
+          <label for="email">Email</label>
+          <input id="email" name="email" type="email" autocomplete="email" placeholder="you@example.com" required />
+        </div>
+        <div class="field">
+          <label for="phone">Phone</label>
+          <input id="phone" name="phone" type="tel" autocomplete="tel" placeholder="+91 98765 43210" required />
+        </div>
+        <button class="btn btn-primary submit-btn" id="submit-btn" type="submit">Request my audit</button>
+        <div class="form-msg" id="form-msg" role="status" aria-live="polite"></div>
+      </form>
+    </div>
+  </div>
+</section>
+
+<footer>
+  <div class="container">© Mindful Emotional Sanctuary</div>
+</footer>
+
+<script>
+  // ---- Mood selection drives the quotes ----
+  // Each target mood has its own set of quotes. Change the quote text here.
+  // Attributions marked "Anonymous" should be checked before publishing.
+  var RESULTS = {
+    Motivated: [
+      ["Out of suffering have emerged the strongest souls; the massive characters are seared with scars.", "Khalil Gibran", "The Broken Wings, 1912"],
+      ["The wound is the place where the Light enters you.", "Rumi", "Attributed Persian Verse"],
+      ["Rock bottom became the solid foundation on which I rebuilt my life.", "J.K. Rowling", "Harvard Commencement Address"],
+      ["You may have to fight a battle more than once to win it.", "Margaret Thatcher", "Keynote Address, 1980"]
+    ],
+    Confident: [
+      ["Walk into the room as if you already belong there.", "Anonymous", ""],
+      ["Confidence is quiet. It does not need to be loud to be real.", "Anonymous", ""],
+      ["You have survived every hard day so far. That is evidence.", "Anonymous", ""],
+      ["Trust the work you have already done.", "Anonymous", ""]
+    ],
+    Peaceful: [
+      ["Peace is every step.", "Thich Nhat Hanh", "Peace Is Every Step"],
+      ["Nature does not hurry, yet everything is accomplished.", "Lao Tzu", "Tao Te Ching (translations vary)"],
+      ["Let the breath carry what the mind cannot yet hold.", "Anonymous", ""],
+      ["Stillness is not empty. It is full of things returning to their place.", "Anonymous", ""]
+    ],
+    Loved: [
+      ["Love is the reason the heart learns to keep opening.", "Anonymous", ""],
+      ["Someone is glad you exist, even on the days you forget.", "Anonymous", ""],
+      ["The people who see you clearly are worth keeping close.", "Anonymous", ""],
+      ["You do not have to earn the kindness you already give yourself.", "Anonymous", ""]
+    ],
+    Focused: [
+      ["Pick one thing. Let the rest wait its turn.", "Anonymous", ""],
+      ["What you give your attention to grows.", "Anonymous", ""],
+      ["Close the other tabs. Open the one that matters.", "Anonymous", ""],
+      ["Attention is the rarest form of courage.", "Anonymous", ""]
+    ],
+    Fearless: [
+      ["You may encounter many defeats, but you must not be defeated.", "Maya Angelou", ""],
+      ["Courage is not the absence of fear, but acting in spite of it.", "Anonymous", ""],
+      ["Brave is not the lack of shaking. It is shaking and going anyway.", "Anonymous", ""],
+      ["Your fear is information, not instruction.", "Anonymous", ""]
+    ],
+    Hopeful: [
+      ["The darkest hour has only sixty minutes.", "Anonymous", ""],
+      ["Every sunrise is an invitation to begin again.", "Anonymous", ""],
+      ["Tomorrow does not need your strength yet. Only today does.", "Anonymous", ""],
+      ["Something good is still on its way.", "Anonymous", ""]
+    ],
+    Disciplined: [
+      ["We are what we repeatedly do.", "Attributed to Aristotle", ""],
+      ["Motivation gets you started. Habit keeps you going.", "Anonymous", ""],
+      ["Small steps, done daily, become a life.", "Anonymous", ""],
+      ["The bridge between goals and results.", "Anonymous", ""]
+    ],
+    Strong: [
+      ["The impediment to action advances action. What stands in the way becomes the way.", "Marcus Aurelius", "Meditations"],
+      ["Strength does not come from winning. It comes from getting back up.", "Anonymous", ""],
+      ["You are stronger than the story you tell about yourself.", "Anonymous", ""],
+      ["Hard days build the back that carries you.", "Anonymous", ""]
+    ]
+  };
+
+  // Card colours, cycled in order
+  var CARD_STYLES = [
+    { tint: "rgba(231,222,255,.2)", tagBg: "rgba(185,165,255,.4)", tagFg: "#493688" },
+    { tint: "rgba(254,181,157,.2)", tagBg: "rgba(255,219,208,.5)", tagFg: "#360f03" },
+    { tint: "rgba(178,239,213,.3)", tagBg: "rgba(131,190,166,.3)", tagFg: "#0c4e3b" },
+    { tint: "rgba(217,215,245,.4)", tagBg: "#e2dffd", tagFg: "#19192f" }
+  ];
+
+  var state = { current: "Sad", target: "Motivated", order: [0, 1, 2, 3] };
+
+  function shuffle(arr) {
+    var a = arr.slice();
+    for (var i = a.length - 1; i > 0; i--) {
+      var j = Math.floor(Math.random() * (i + 1));
+      var t = a[i]; a[i] = a[j]; a[j] = t;
+    }
+    return a;
+  }
+
+  function renderResults() {
+    var cur = state.current;
+    var tgt = state.target;
+    var list = RESULTS[tgt];
+
+    document.getElementById("r-eyebrow").textContent =
+      "Transition journey: " + cur.toLowerCase() + " → " + tgt.toLowerCase();
+    document.getElementById("r-title").textContent =
+      "Let's turn " + cur.toLowerCase() + " into " + tgt.toLowerCase() + ".";
+    document.getElementById("r-sub").textContent =
+      "Words for when you feel " + cur.toLowerCase() + ", to carry you toward feeling " + tgt.toLowerCase() + ".";
+    document.getElementById("find-btn").textContent =
+      "Find My Quotes (" + cur + " → " + tgt + ")";
+
+    document.getElementById("quotes-grid").innerHTML = state.order.map(function (idx, n) {
+      var q = list[idx];
+      var st = CARD_STYLES[n % CARD_STYLES.length];
+      return '<article class="rq" style="background: linear-gradient(150deg,#fff 0%,#f5f2ff 50%,' + st.tint + ' 100%);">' +
+        '<div class="rq-top"><span class="rq-tag" style="background:' + st.tagBg + ';color:' + st.tagFg + '">' + tgt + '</span></div>' +
+        '<blockquote>“' + q[0] + '”</blockquote>' +
+        '<div class="rq-foot"><div><div class="who">— ' + q[1] + '</div><div class="src">' + q[2] + '</div></div>' +
+        '<div class="rq-actions"><button class="icon-btn" title="Copy">⧉</button><button class="icon-btn" title="Save">♡</button><button class="icon-btn" title="Share">↗</button></div></div>' +
+        '</article>';
+    }).join("");
+  }
+
+  function reshuffle() {
+    state.order = shuffle([0, 1, 2, 3]);
+    renderResults();
+  }
+
+  document.querySelectorAll("#current-moods .mood").forEach(function (btn) {
+    btn.addEventListener("click", function () {
+      document.querySelectorAll("#current-moods .mood").forEach(function (b) { b.classList.remove("active"); });
+      btn.classList.add("active");
+      state.current = btn.dataset.mood;
+      state.order = [0, 1, 2, 3];
+      renderResults();
+    });
+  });
+
+  document.querySelectorAll("#target-moods .target").forEach(function (btn) {
+    btn.addEventListener("click", function () {
+      document.querySelectorAll("#target-moods .target").forEach(function (b) { b.classList.remove("active"); });
+      btn.classList.add("active");
+      state.target = btn.dataset.target;
+      state.order = [0, 1, 2, 3];
+      renderResults();
+    });
+  });
+
+  document.getElementById("regen").addEventListener("click", reshuffle);
+  document.querySelector(".more-btn").addEventListener("click", reshuffle);
+
+  renderResults();
+
+  // ---- Lead form -> Google Sheets (Apps Script) ----
+  var SCRIPT_URL = "https://script.google.com/macros/s/AKfycbzLC_7GBVo2jWH2IvRR542ouQmb6Knf4DpghQhRn96Q2J9QEbEYPPpTd21kYqbhDQWWFg/exec";
+
+  var form = document.getElementById('audit-form');
+  var submitBtn = document.getElementById('submit-btn');
+  var msg = document.getElementById('form-msg');
+
+  function setLoading(on) {
+    submitBtn.disabled = on;
+    submitBtn.textContent = on ? 'Sending…' : 'Request my audit';
+  }
+  function showSuccess() {
+    setLoading(false);
+    msg.className = 'form-msg ok';
+    msg.textContent = 'Thank you! We have your details and will be in touch shortly.';
+    form.reset();
+  }
+  function showError() {
+    setLoading(false);
+    msg.className = 'form-msg err';
+    msg.textContent = 'Something went wrong. Please check your connection and try again.';
+  }
+
+  form.addEventListener('submit', function (e) {
+    e.preventDefault();
+    if (!form.reportValidity()) return;
+
+    var name = document.getElementById('name').value.trim();
+    var email = document.getElementById('email').value.trim();
+    var phone = document.getElementById('phone').value.trim();
+
+    var url = SCRIPT_URL + "?" + new URLSearchParams({ name: name, email: email, phone: phone });
+
+    msg.className = 'form-msg';
+    msg.textContent = '';
+    setLoading(true);
+
+    fetch(url, { method: "GET", mode: "no-cors" })
+      .then(function () { showSuccess(); })
+      .catch(function () { showError(); });
+  });
+</script>
+</body>
+</html>
